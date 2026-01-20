@@ -1,6 +1,6 @@
 ## Expense Tracker App 📊💰
 
-📝 A client-side expense tracker that enables users to set budgets, categorize expenses, and visualize remaining balance using Chart.js, with all data stored in browser localStorage.
+📝 A client-side expense tracker that enables users to set budgets, categorize expenses, and visualize remaining balance using Chart.js with all data stored in browser localStorage.
 
 
 ## Table of Contents
@@ -102,8 +102,6 @@ This project wouldn't be possible without the following:
 
 ## Contact
 
--
-- [My LinkedIn](linkedin.com/in/sakshi-b77816388)
 
 - e-mail: [sakshi55.dnb@gmail.com]
 - LinkedIn: [My LinkedIn](https://www.linkedin.com/in/sakshi-b77816388)
