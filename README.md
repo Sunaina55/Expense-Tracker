@@ -29,9 +29,9 @@
 
 ## Demo
 
-[Link to Live Demo](https://expense-tracker-manik.netlify.app/)
+[Link to Live Demo](https://sakshi-expense-tracker.netlify.app/ )
 
-You can see the project in action by visiting the [live demo](https://expense-tracker-manik.netlify.app/).
+You can see the project in action by visiting the [live demo](https://sakshi-expense-tracker.netlify.app/).
 
 ---
 
