@@ -102,6 +102,9 @@ This project wouldn't be possible without the following:
 
 ## Contact
 
+-
+- [My LinkedIn](linkedin.com/in/sakshi-b77816388)
+
 - e-mail: [sakshi55.dnb@gmail.com]
 - LinkedIn: [linkedin.com/in/sakshi-b77816388]
 
