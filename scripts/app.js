@@ -116,7 +116,7 @@ function createTranHTML(obj = {}) {
   </div>`;
 }
 
-localStorage.saveTag("Sakshi👩‍💻");
+localStorage.saveTag("Manik👨‍💻");
 
 function createTagHTML(str) {
   return `
