@@ -104,6 +104,6 @@ This project wouldn't be possible without the following:
 
 ## Contact
 
-- Manik Maity -[sakshi55.dnb@gmail.com]
+- Sakshi -[sakshi55.dnb@gmail.com]
 - [My LinkedIn](linkedin.com/in/sakshi-b77816388)
 
