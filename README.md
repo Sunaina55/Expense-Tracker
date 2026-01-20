@@ -103,6 +103,6 @@ This project wouldn't be possible without the following:
 ## Contact
 
 - e-mail: [sakshi55.dnb@gmail.com]
-- LinkedIn: [https://linkedin.com/in/your-profile]
+- LinkedIn: [linkedin.com/in/sakshi-b77816388]
 
 
