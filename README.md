@@ -1,6 +1,6 @@
 ## Expense Tracker App 📊💰
 
-📝 Manage your finances efficiently with this Expense Tracker App! Track your expenses, set budgets, and visualize your spending habits to stay on top of your financial goals. Built with HTML, CSS, JavaScript, and integrated with local storage for seamless user experience.
+📝 A client-side expense tracker that enables users to set budgets, categorize expenses, and visualize remaining balance using Chart.js, with all data stored in browser localStorage.
 
 
 ## Table of Contents
@@ -29,9 +29,7 @@
 
 ## Demo
 
-[Link to Live Demo](https://sakshi-expense-tracker.netlify.app/ )
-
-You can see the project in action by visiting the [live demo](https://sakshi-expense-tracker.netlify.app/).
+You can see the project in action by visiting the [Link to Live Demo](https://sakshi-expense-tracker.netlify.app/).
 
 ---
 
@@ -104,6 +102,7 @@ This project wouldn't be possible without the following:
 
 ## Contact
 
-- Sakshi -[sakshi55.dnb@gmail.com]
-- [My LinkedIn](linkedin.com/in/sakshi-b77816388)
+- e-mail: [sakshi55.dnb@gmail.com]
+- LinkedIn: [https://linkedin.com/in/your-profile]
+
 
