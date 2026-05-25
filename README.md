@@ -6,7 +6,7 @@ A clean, minimal personal finance tracker built with vanilla HTML, CSS, and Java
 
 ## 🖥️ Live Preview
 
-> [Click here to view the live demo](#) ← _replace with your GitHub Pages / Netlify link_
+> [Click here to view the live demo](https://sunaina55.github.io/Expense-Tracker/)
 
 ---
 
