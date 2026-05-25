@@ -19,14 +19,23 @@ A clean, minimal personal finance tracker built with vanilla HTML, CSS, and Java
 ## ✨ Features
 
 - **Dashboard** — Monthly summary with total spent, income, balance, and transaction count
+<br>
 - **Spending Charts** — Doughnut chart by category + daily bar chart (powered by Chart.js)
+<br>
 - **Add Expenses** — Description, amount, category, date, and recurring flag
+<br>
 - **Category System** — 8 pre-defined categories (Food, Transport, Shopping, Health, Entertainment, Bills, Education, Other)
+<br>
 - **Budget Goals** — Set monthly limits per category with live progress bars and over-budget alerts
+<br>
 - **Recurring Expenses** — Mark expenses as monthly recurring and track total fixed costs
+<br>
 - **Edit & Delete** — Modify any transaction via modal or remove it instantly
+<br>
 - **Sort & Filter** — Filter transactions by category, sort by date or amount
+<br>
 - **Persistent Storage** — All data saved in `localStorage`, no backend needed
+<br>
 - **Responsive Design** — Works on desktop and mobile with a collapsible sidebar
 
 ---
@@ -49,8 +58,7 @@ A clean, minimal personal finance tracker built with vanilla HTML, CSS, and Java
 Expense-Tracker/
 ├── index.html          # Main HTML file
 ├── style.css           # All styles
-├── scripts/
-│   └── app.js          # App logic (expenses, budgets, charts)
+├── scripts,js          # App logic (expenses, budgets, charts)
 ├── Assets/
 │   └── preview.png     # Screenshot for README
 └── README.md
