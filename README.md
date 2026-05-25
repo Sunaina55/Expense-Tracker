@@ -144,4 +144,4 @@ All data is stored in your browser's `localStorage` under these keys:
 
 ---
 
-_Made with ❤️ using vanilla HTML, CSS & JS — no frameworks, no dependencies._
+_Made with ❤️ using HTML, CSS & JS — no frameworks, no dependencies._
