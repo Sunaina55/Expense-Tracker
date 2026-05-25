@@ -1,110 +1,141 @@
-## Expense Tracker App 📊💰
+# Trackr — Expense Tracker App 💰
 
-📝 A client-side expense tracker that enables users to set budgets, categorize expenses, and visualize remaining balance using Chart.js with all data stored in browser localStorage.
-
-
-## Table of Contents
-
-- [Preview](#preview)
-- [Demo](#demo)
-- [Features](#features)  <!-- Add Features Section -->
-- [Technologies Used](#technologies-used)
-- [Usage](#usage)
-- [Acknowledgments](#acknowledgments)
-- [Contact](#contact)
+A clean, minimal personal finance tracker built with vanilla HTML, CSS, and JavaScript. Track your daily expenses, set category budgets, visualize spending patterns, and manage recurring payments — all stored locally in your browser.
 
 ---
 
-## Preview
+## 🖥️ Live Preview
 
-### Desktop Preview
-<img src="./Assets/exp-tracker-destop-preview.png" alt="">
-
-### Mobile Preview
-<img height="600px" src="./Assets/exp-tracker-mobile.png" alt="">
+> [Click here to view the live demo](#) ← _replace with your GitHub Pages / Netlify link_
 
 ---
 
+## 📸 Preview
 
-
-## Demo
-
-You can see the project in action by visiting the [Link to Live Demo](https://sakshi-expense-tracker.netlify.app/).
+![Dashboard Preview](./Assets/preview.png)
 
 ---
 
-## Features
+## ✨ Features
 
-Here are some key features of this app:
-
-- 💼 Expense addition with customizable exp tags
-- 💰 Budget input and budget editing 
-- 📊 Local storage integration for budget, expenses, and tags
-- 📜 Expense history display
-- ✏️ Edit and delete functionalities for expense items
-- 🔍 Expense history sorting options
-- 📈 Budget left calculation and visualization via pie chart
-- ❌ error handling
-- 🖥️ Responsive design for seamless user experience
-
----
-
-## Technologies Used
-
-- HTML
-- CSS
-- JavaScript
-- ChartJs
+- **Dashboard** — Monthly summary with total spent, income, balance, and transaction count
+- **Spending Charts** — Doughnut chart by category + daily bar chart (powered by Chart.js)
+- **Add Expenses** — Description, amount, category, date, and recurring flag
+- **Category System** — 8 pre-defined categories (Food, Transport, Shopping, Health, Entertainment, Bills, Education, Other)
+- **Budget Goals** — Set monthly limits per category with live progress bars and over-budget alerts
+- **Recurring Expenses** — Mark expenses as monthly recurring and track total fixed costs
+- **Edit & Delete** — Modify any transaction via modal or remove it instantly
+- **Sort & Filter** — Filter transactions by category, sort by date or amount
+- **Persistent Storage** — All data saved in `localStorage`, no backend needed
+- **Responsive Design** — Works on desktop and mobile with a collapsible sidebar
 
 ---
 
-## Usage
+## 🛠️ Tech Stack
 
-
-### Installation
-1. Clone the repository to your local machine using `git clone`.
-2. Navigate to the project directory.
-
-### Running the App
-1. Go to `Expense-Tracker-App` folder by typing `cd Expense-Tracker-App` in terminal and type `live-server` in terminal to open Expense Tracker App in browser.
-
-### Adding budget
-- **Desktop:** Go to the "Change Budget" section and input your preferred budget amount in the designated field. Click on the "Add" button.
-- **Mobile:** Tap on the plus (+) icon and input your budget amount in the provided field. Tap "Add".
-
-### Adding Expenses
-- To add expenses, go to the "Add Expense".
-- Input the expense amount and select a expense tag. You can also create a custom tag by clicking on "Add tag" button.
-- Clear all input fields by clicking on the "Clear" button.
-
-### Viewing Expense History
-- Go to `History` Scroll down to view your expense history.
-- Sort the expense history by clicking on the dropdown to arrange transactions from high to low or low to high.
-
-### Editing and Deleting Expenses
-- In the expense history, each transaction is accompanied by edit and delete icons.
-- Click on the edit icon to modify transaction details. A popup will appear where you can edit the amount, tag, or both. Click "Edit Expense" to save changes.
-- To delete a transaction, click on the trash icon associated with the transaction and confirm.
-
-### Mobile Screen
-- The web app is designed to be responsive and mobile-friendly.
-- You can toggle the "Add Expense" and "Change Budget" modal by tapping on the plus icon.
+| Technology | Purpose |
+|------------|---------|
+| HTML5 | Structure & markup |
+| CSS3 | Styling, layout, responsive design |
+| JavaScript (ES6+) | App logic, localStorage, DOM manipulation |
+| Chart.js | Doughnut & bar charts |
+| Google Fonts | DM Sans + Syne typography |
 
 ---
 
-## Acknowledgments
+## 📁 Project Structure
 
-This project wouldn't be possible without the following:
-
-[Chart Js](https://www.chartjs.org/)
+```
+Expense-Tracker/
+├── index.html          # Main HTML file
+├── style.css           # All styles
+├── scripts/
+│   └── app.js          # App logic (expenses, budgets, charts)
+├── Assets/
+│   └── preview.png     # Screenshot for README
+└── README.md
+```
 
 ---
 
-## Contact
+## 🚀 Getting Started
 
+### 1. Clone the repository
 
-- e-mail: [sakshi55.dnb@gmail.com]
-- LinkedIn: [My LinkedIn](https://www.linkedin.com/in/sakshi-b77816388)
+```bash
+git clone https://github.com/Sunaina55/Expense-Tracker.git
+cd Expense-Tracker
+```
 
+### 2. Run the app
 
+Open `index.html` directly in your browser, **or** use Live Server in VS Code:
 
+```bash
+# If you have Live Server installed
+# Right-click index.html → Open with Live Server
+```
+
+No npm install, no build step — just open and use! ✅
+
+---
+
+## 📖 How to Use
+
+### Adding an Expense
+1. Click **Add Expense** in the sidebar
+2. Fill in description, amount, category, and date
+3. Optionally check **Recurring monthly** for fixed costs
+4. Click **Add Expense** — it appears instantly on the dashboard
+
+### Setting a Budget
+1. Click **Budgets** in the sidebar
+2. Select a category and enter a monthly limit
+3. Click **Set Budget** — a progress bar will track your spending live
+
+### Editing or Deleting
+- Click the ✎ icon on any transaction to edit amount, description, or category
+- Click the ✕ icon to delete it
+
+### Setting Income
+- Enter your monthly income in the **sidebar bottom field** and click **Set**
+- Your balance (income − spending) updates automatically
+
+---
+
+## 📊 Charts
+
+- **Spending by Category** — Doughnut chart showing percentage split across all categories this month
+- **Daily Spending** — Bar chart showing how much you spent each day of the current month
+
+---
+
+## 💾 Data Storage
+
+All data is stored in your browser's `localStorage` under these keys:
+
+| Key | Contents |
+|-----|----------|
+| `trackr_expenses_v1` | All expense entries |
+| `trackr_budgets_v1` | Category budget limits |
+| `trackr_income_v1` | Monthly income value |
+
+> ⚠️ Clearing browser data will erase all entries. No cloud sync is included.
+
+---
+
+## 🙏 Acknowledgements
+
+- [Chart.js](https://www.chartjs.org/) — for the beautiful charts
+- [Google Fonts](https://fonts.google.com/) — DM Sans & Syne typefaces
+
+---
+
+## 📬 Contact
+
+**Sunaina**
+- GitHub: [@Sunaina55](https://github.com/Sunaina55)
+
+---
+
+_Made with ❤️ using vanilla HTML, CSS & JS — no frameworks, no dependencies._
