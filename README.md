@@ -12,7 +12,11 @@ A clean, minimal personal finance tracker built with vanilla HTML, CSS, and Java
 
 ## 📸 Preview
 
-![Dashboard Preview](./Assets/preview.png)
+### 🖥️ Desktop
+![Desktop Preview](./Assets/desktop-preview.png)
+
+### 📱 Mobile
+<img src="./Assets/mobile-preview.png" width="300" />
 
 ---
 
