@@ -55,9 +55,10 @@ A clean, minimal personal finance tracker built with vanilla HTML, CSS, and Java
 Expense-Tracker/
 ├── index.html          # Main HTML file
 ├── style.css           # All styles
-├── scripts,js          # App logic (expenses, budgets, charts)
+├── scripts.js          # App logic (expenses, budgets, charts)
 ├── Assets/
-│   └── preview.png     # Screenshot for README
+│   ├── desktop-preview.png    # Desktop screenshot
+│   └── mobile-preview.png     # Mobile screenshot
 └── README.md
 ```
 
