@@ -1,181 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expence Traker</title>
-    <!-- css file link  -->
-    <link rel="stylesheet" href="./style.css">
-
-    <!-- fontawsome cdn  -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expense Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Syne:wght@600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 </head>
-
 <body>
-    <!-- edit trans item form -->
-    <div id="" class="edit-money-card">
-        <div class="add-type">
-            <p>Edit Expense</p>
-            <button id="closeEdit">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-        <div class="edit-form-container">
-            <div class="flex-col edit-amount">
-                <label for="editAmount">Amount</label>
-                <input type="number" min="0" name="amount" id="editAmount">
-            </div>
-            <div class="exp-for-edit flex-col">
-                <label for="tagName">Tag Name</label>
-                <input type="text" minlength="25" id="tagName">
-            </div>
-        </div>
-        <div class="info-container"><i class="fa-solid fa-circle-info"></i>
-            <p class="info"></p>
-        </div>
-        <button id="editTranBtn">Edit Expense <i class="fa-regular fa-pen-to-square"></i></button>
-    </div>
 
-    <!-- mobie btn and greet user  -->
-    <button class="mobile-add-btn"><i class="fa-solid fa-plus"></i></button>
-    <div class="main">
-        <div class="greeting">
-            <p>Hi <h1>User,</h1>
-            </p>
-        </div>
-
-        <!---------------------------- left section strats here  -------------------------->
-        <div class="left-container">
-
-
-            <div class="display-cards">
-
-                <!-- money left card  -->
-                <div class="money-left-card">
-                    <div class="card-text-container">
-                        <p>Buget Left</p>
-                        <h1>₹<span id="budgetLeft">0</span></h1>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="myChart"></canvas>
-                    </div>
-                </div>
-
-
-                <!-- total money cards  -->
-                <div class="budg-exp-container">
-
-                    <div class="total-card total-budget">
-                        <p>Total Budget</p>
-                        <div>
-                            <h4>₹<span id="totalBudget">0</span></h4>
-                        </div>
-                    </div>
-
-                    <div class="total-card total-exp">
-                        <p>Total Expense</p>
-                        <div>
-                            <h4>₹<span id="totalExp">0</span></h4>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-            <!-- add exp or budget card  -->
-
-            <div class="add-money-card">
-
-                <div class="add-type">
-                    <button class="add-exp-btn selected-add-exp">Add Expense</button>
-                    <button class="add-bud-btn">Change Budget</button>
-                </div>
-
-                <div class="form-container">
-                    <div class="flex-col add-amount">
-                        <label for="addAmount">Amount</label>
-                        <input type="number" min="0" name="amount" id="addAmount">
-                    </div>
-
-                    <div class="exp-for">
-                        <div class="tags-conatiner">
-                            <input type="radio" id="shoping" name="expFor" value="Shopping🛍️">
-                            <label for="shoping">Shopping🛍️</label>
-                            <input type="radio" id="food" name="expFor" value="Food😋">
-                            <label for="food">Food😋</label>
-                            <input type="radio" id="subscription" name="expFor" value="Subscription📱">
-                            <label for="subscription">Subscription📱</label>
-                        </div>
-                        <div class="tag-input">
-                            <input type="text" name="" maxlength="20" id="tagInputField">
-                            <button id="confirmNewTag"><i class="fa-solid fa-check"></i></button>
-                        </div>
-                        <button id="addTagBtn">
-                            Add tag <i class="fa-solid fa-plus"></i>
-                        </button>
-
-                    </div>
-
-                </div>
-                <div class="info-container"><i class="fa-solid fa-circle-info"></i>
-                    <p class="info"></p>
-                </div>
-
-                <div class="add-money-card-btn">
-                    <button id="addBtn">Add <i class="fa-solid fa-plus"></i></button>
-                    <button id="clearBtn">Clear</button>
-                </div>
-
-
-            </div>
-
-        </div>
-        <!------------------------------------ left section ends here  --------------------->
-
-
-
-
-        <div class="right-container">
-            <div class="history-text">
-                <h1>History</h1>
-                <select name="sortTrans" id="sortTrans">
-                    <option value="default">Default</option>
-                    <option value="highToLow">High to Low</option>
-                    <option value="lowToHigh">Low to High</option>
-                </select>
-            </div>
-
-            <div class="money-history-container">
-
-                <!-- <div class="trans-item" id="${obj?.id}">
-  <div>
-      <h4>-₹${obj?.amount}</h4>
-      <div class="tranTagContainer">
-        <p>${obj?.tag}</p>
-        <p class="trans-date">${new Date(obj?.time).toLocaleString()}</p>
+  <!-- EDIT MODAL -->
+  <div class="modal-overlay" id="editOverlay">
+    <div class="modal">
+      <div class="modal-header">
+        <span>Edit Expense</span>
+        <button class="modal-close" id="closeEdit">&#x2715;</button>
       </div>
-  </div>
-  <p class="trans-date">${new Date(obj?.time).toLocaleString()}</p>
-  <div class="trans-item-btn">
-      <button id="transEdit"><i class="fa-regular fa-pen-to-square"></i></button>
-      <button id="transDelete"><i class="fa-regular fa-trash-can"></i></button>
-  </div>
-  </div> -->
-
-            </div>
+      <div class="modal-body">
+        <div class="field-group">
+          <label for="editAmount">Amount (₹)</label>
+          <input type="number" id="editAmount" min="0" placeholder="0" />
         </div>
+        <div class="field-group">
+          <label for="editDesc">Description</label>
+          <input type="text" id="editDesc" placeholder="e.g. Groceries" />
+        </div>
+        <div class="field-group">
+          <label for="editCat">Category</label>
+          <select id="editCat"></select>
+        </div>
+      </div>
+      <button class="btn-primary full-width" id="editTranBtn">Save Changes</button>
     </div>
+  </div>
 
+  <!-- SIDEBAR / NAV -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-icon">₹</span>
+      <span class="brand-name">Tracker</span>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-tab="dashboard">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </button>
+      <button class="nav-item" data-tab="add">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Add Expense
+      </button>
+      <button class="nav-item" data-tab="budgets">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        Budgets
+      </button>
+      <button class="nav-item" data-tab="recurring">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        Recurring
+      </button>
+    </nav>
+    <div class="sidebar-income">
+      <label>Monthly Income (₹)</label>
+      <div class="income-row">
+        <input type="number" id="incomeInput" placeholder="e.g. 50000" />
+        <button id="saveIncome">Set</button>
+      </div>
+    </div>
+  </aside>
 
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
 
-    <!-- chart.js cdn for pie card  -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div>
+        <div class="topbar-title" id="tabTitle">Dashboard</div>
+        <div class="topbar-sub" id="monthLabel"></div>
+      </div>
+      <button class="mobile-menu-btn" id="mobileMenu">&#9776;</button>
+    </header>
 
-    <script src="./scripts/app.js" type="module"></script>
+    <!-- DASHBOARD TAB -->
+    <section class="tab-section active" id="tab-dashboard">
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-label">Total Spent</div>
+          <div class="metric-value red" id="m-total">₹0</div>
+          <div class="metric-sub">this month</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Income</div>
+          <div class="metric-value green" id="m-income">—</div>
+          <div class="metric-sub">monthly</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Balance</div>
+          <div class="metric-value" id="m-balance">—</div>
+          <div class="metric-sub">remaining</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Transactions</div>
+          <div class="metric-value" id="m-count">0</div>
+          <div class="metric-sub">this month</div>
+        </div>
+      </div>
 
+      <div class="charts-row">
+        <div class="card chart-card">
+          <div class="card-title">Spending by Category</div>
+          <div class="chart-wrap"><canvas id="pieChart"></canvas></div>
+          <div id="pieLegend" class="chart-legend"></div>
+        </div>
+        <div class="card chart-card">
+          <div class="card-title">Daily Spending</div>
+          <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Transactions</div>
+          <div class="filter-pills" id="catFilters"></div>
+        </div>
+        <div class="sort-row">
+          <select id="sortTrans">
+            <option value="default">Latest first</option>
+            <option value="highToLow">High to Low</option>
+            <option value="lowToHigh">Low to High</option>
+          </select>
+        </div>
+        <div class="expense-list" id="expenseList">
+          <div class="empty-state">No transactions yet. Add your first expense!</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADD EXPENSE TAB -->
+    <section class="tab-section" id="tab-add">
+      <div class="card form-card">
+        <div class="card-title">New Transaction</div>
+        <div class="form-grid">
+          <div class="field-group">
+            <label for="addDesc">Description</label>
+            <input type="text" id="addDesc" placeholder="e.g. Groceries, Uber ride" />
+          </div>
+          <div class="field-group">
+            <label for="addAmount">Amount (₹)</label>
+            <input type="number" id="addAmount" min="0" placeholder="0" />
+          </div>
+          <div class="field-group">
+            <label for="addCat">Category</label>
+            <select id="addCat"></select>
+          </div>
+          <div class="field-group">
+            <label for="addDate">Date</label>
+            <input type="date" id="addDate" />
+          </div>
+        </div>
+        <div class="recurring-row">
+          <input type="checkbox" id="addRecurring" />
+          <label for="addRecurring">Mark as recurring monthly expense</label>
+        </div>
+        <div class="form-actions">
+          <button class="btn-secondary" id="clearBtn">Clear</button>
+          <button class="btn-primary" id="addBtn">Add Expense</button>
+        </div>
+        <div class="form-info" id="formInfo"></div>
+      </div>
+    </section>
+
+    <!-- BUDGETS TAB -->
+    <section class="tab-section" id="tab-budgets">
+      <div class="card form-card">
+        <div class="card-title">Set Category Budget</div>
+        <div class="form-grid">
+          <div class="field-group">
+            <label for="budCat">Category</label>
+            <select id="budCat"></select>
+          </div>
+          <div class="field-group">
+            <label for="budAmt">Monthly Limit (₹)</label>
+            <input type="number" id="budAmt" min="0" placeholder="e.g. 5000" />
+          </div>
+        </div>
+        <button class="btn-primary" id="saveBudBtn">Set Budget</button>
+      </div>
+      <div class="card">
+        <div class="card-title">Budget Progress</div>
+        <div id="budgetList"><div class="empty-state">No budgets set yet.</div></div>
+      </div>
+    </section>
+
+    <!-- RECURRING TAB -->
+    <section class="tab-section" id="tab-recurring">
+      <div class="card">
+        <div class="card-title">Recurring Expenses</div>
+        <div id="recurList"><div class="empty-state">No recurring expenses. Mark one when adding.</div></div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="./scripts/app.js" type="module"></script>
+  <script src="scripts.js"></script>
 </body>
-
 </html>
