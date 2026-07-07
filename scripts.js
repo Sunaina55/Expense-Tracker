@@ -14,6 +14,7 @@ const CATEGORIES = [
   { name: "Entertainment", emoji: "🎬", color: "#0891B2", bg: "#E6F7FB" },
   { name: "Bills", emoji: "📄", color: "#16A34A", bg: "#E8F8EE" },
   { name: "Education", emoji: "📚", color: "#CA8A04", bg: "#FEF9E6" },
+  { name: "Investments", emoji: "📈", color: "#0F766E", bg: "#E6FFFA" },
   { name: "Other", emoji: "📦", color: "#64748B", bg: "#F1F5F9" },
 ];
 
@@ -372,6 +373,50 @@ function renderBudgets() {
     .join("");
 }
 
+// ── Category Grid (Budgets + quick actions) ───────────────
+function renderCategoryGrid() {
+  const catTotals = getCatTotals(getMonthExpenses());
+  const counts = {};
+  getMonthExpenses().forEach((e) => (counts[e.cat] = (counts[e.cat] || 0) + 1));
+  const grid = document.getElementById("categoryGrid");
+  if (!grid) return;
+
+  grid.innerHTML = CATEGORIES.map((c) => {
+    const spent = catTotals[c.name] || 0;
+    const txCount = counts[c.name] || 0;
+    const budgetSet = budgets[c.name] !== undefined;
+    const budgetLabel = budgetSet
+      ? fmt(budgets[c.name])
+      : `<button class=\"btn-secondary small set-budget-btn\" onclick=\"setBudgetForCategory('${c.name}')\">Set Budget</button>`;
+    return `
+      <div class="cat-card">
+          <div class="cat-top">
+          <div class="cat-icon" style="background:${c.bg};color:${c.color}">${c.emoji}</div>
+          <div class="cat-info">
+            <div class="cat-name">${c.name}</div>
+            <div class="cat-count">${txCount} transactions</div>
+          </div>
+        </div>
+        <div class="cat-bottom">
+          <div class="cat-amount">${fmt(spent)}</div>
+          <div class="cat-action">${budgetLabel}</div>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+window.setBudgetForCategory = function (catName) {
+  const select = document.getElementById("budCat");
+  const amt = document.getElementById("budAmt");
+  if (select) select.value = catName;
+  if (amt) amt.focus();
+  switchTab("budgets");
+  // scroll the budget form into view
+  document
+    .querySelector("#tab-budgets .form-card")
+    ?.scrollIntoView({ behavior: "smooth", block: "center" });
+};
+
 // ── Recurring ──────────────────────────────────────────────
 function renderRecurring() {
   const recur = expenses.filter((e) => e.recur);
@@ -661,6 +706,7 @@ function renderAll() {
   renderExpenseList();
   renderBudgets();
   renderRecurring();
+  renderCategoryGrid();
   renderCharts();
 }
 
