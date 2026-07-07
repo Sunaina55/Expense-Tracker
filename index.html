@@ -210,6 +210,32 @@
 
     <!-- BUDGETS TAB -->
     <section class="tab-section" id="tab-budgets">
+      <div class="budgets-metrics">
+        <div class="metric-card">
+          <div class="metric-label">Total Budget</div>
+          <div class="metric-value" id="m-total-budget">₹0</div>
+          <div class="metric-sub">monthly</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Spent</div>
+          <div class="metric-value" id="m-bud-spent">₹0</div>
+          <div class="metric-sub">this month</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Remaining</div>
+          <div class="metric-value green" id="m-bud-remaining">—</div>
+          <div class="metric-sub">available</div>
+        </div>
+      </div>
+
+      <div class="card overall-budget">
+        <div class="card-title">Overall Budget Usage</div>
+        <div class="card-sub" style="color:var(--text-3);font-size:13px;margin-bottom:8px"> <span
+            id="overallPctLabel">0% of monthly budget used</span></div>
+        <div class="progress-track" style="height:10px;background:rgba(0,0,0,0.04)">
+          <div id="overallProgressFill" class="progress-fill" style="background:var(--green);width:0%"></div>
+        </div>
+      </div>
       <div class="card form-card">
         <div class="card-title">Set Category Budget</div>
         <div class="form-grid">

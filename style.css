@@ -59,6 +59,36 @@ body {
   transition: transform 0.25s ease;
 }
 
+/* Budgets header metrics (Budgets tab) */
+.budgets-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.overall-budget .card-title {
+  text-transform: none;
+  font-size: 15px;
+  color: var(--text-1);
+  margin-bottom: 0.25rem;
+}
+
+.overall-budget .card-sub {
+  margin-bottom: 0.5rem;
+}
+
+.overall-budget .progress-track {
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+#overallProgressFill {
+  height: 100%;
+  transition: width 0.5s ease;
+}
 .sidebar-brand {
   display: flex;
   align-items: center;
