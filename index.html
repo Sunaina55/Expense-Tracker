@@ -145,176 +145,133 @@
           <input type="month" id="monthPicker" />
         </div>
 
-      <!-- DASHBOARD TAB -->
-      <section class="tab-section active" id="tab-dashboard">
-        <div class="metrics-grid">
-          <div class="metric-card">
-            <div class="metric-label">Total Spent</div>
-            <div class="metric-value red" id="m-total">₹0</div>
-            <div class="metric-sub">this month</div>
+        <!-- DASHBOARD TAB -->
+        <section class="tab-section active" id="tab-dashboard">
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-label">Total Spent</div>
+              <div class="metric-value red" id="m-total">₹0</div>
+              <div class="metric-sub">this month</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Income</div>
+              <div class="metric-value green" id="m-income">—</div>
+              <div class="metric-sub">monthly</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Balance</div>
+              <div class="metric-value" id="m-balance">—</div>
+              <div class="metric-sub">remaining</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Transactions</div>
+              <div class="metric-value" id="m-count">0</div>
+              <div class="metric-sub">this month</div>
+            </div>
           </div>
-          <div class="metric-card">
-            <div class="metric-label">Income</div>
-            <div class="metric-value green" id="m-income">—</div>
-            <div class="metric-sub">monthly</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-label">Balance</div>
-            <div class="metric-value" id="m-balance">—</div>
-            <div class="metric-sub">remaining</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-label">Transactions</div>
-            <div class="metric-value" id="m-count">0</div>
-            <div class="metric-sub">this month</div>
-          </div>
-        </div>
+  </div>
+  <div class="card chart-card">
+    <div class="card-title">Daily Spending</div>
+    <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+  </div>
+  </div>
 
-<<<<<<< HEAD
-    <!-- BUDGETS TAB -->
-    <section class="tab-section" id="tab-budgets">
-      <div class="budgets-metrics">
-        <div class="metric-card">
-          <div class="metric-label">Total Budget</div>
-          <div class="metric-value" id="m-total-budget">₹0</div>
-          <div class="metric-sub">monthly</div>
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Transactions</div>
+      <div class="filter-pills" id="catFilters"></div>
+    </div>
+    <div class="toolbar-row">
+      <div class="search-box">
+        <input type="text" id="searchTrans" placeholder="Search by description or category" />
+      </div>
+      <div class="sort-row">
+        <select id="sortTrans">
+          <option value="default">Latest first</option>
+          <option value="highToLow">High to Low</option>
+          <option value="lowToHigh">Low to High</option>
+        </select>
+      </div>
+    </div>
+    <div class="expense-list" id="expenseList">
+      <div class="empty-state">No transactions yet. Add your first expense!</div>
+    </div>
+  </div>
+  </section>
+
+  <!-- ADD EXPENSE TAB -->
+  <section class="tab-section" id="tab-add">
+    <div class="card form-card">
+      <div class="card-title">New Transaction</div>
+      <div class="form-grid">
+        <div class="field-group">
+          <label for="addDesc">Description</label>
+          <input type="text" id="addDesc" placeholder="e.g. Groceries, Uber ride" />
         </div>
-        <div class="metric-card">
-          <div class="metric-label">Spent</div>
-          <div class="metric-value" id="m-bud-spent">₹0</div>
-          <div class="metric-sub">this month</div>
+        <div class="field-group">
+          <label for="addAmount">Amount (₹)</label>
+          <input type="number" id="addAmount" min="0" placeholder="0" />
         </div>
-        <div class="metric-card">
-          <div class="metric-label">Remaining</div>
-          <div class="metric-value green" id="m-bud-remaining">—</div>
-          <div class="metric-sub">available</div>
+        <div class="field-group">
+          <label for="addCat">Category</label>
+          <select id="addCat"></select>
+        </div>
+        <div class="field-group">
+          <label for="addDate">Date</label>
+          <input type="date" id="addDate" />
         </div>
       </div>
+      <div class="recurring-row">
+        <input type="checkbox" id="addRecurring" />
+        <label for="addRecurring">Mark as recurring monthly expense</label>
+      </div>
+      <div class="form-actions">
+        <button class="btn-secondary" id="clearBtn">Clear</button>
+        <button class="btn-primary" id="addBtn">Add Expense</button>
+      </div>
+      <div class="form-info" id="formInfo"></div>
+    </div>
+  </section>
 
-      <div class="card overall-budget">
-        <div class="card-title">Overall Budget Usage</div>
-        <div class="card-sub" style="color:var(--text-3);font-size:13px;margin-bottom:8px"> <span
-            id="overallPctLabel">0% of monthly budget used</span></div>
-        <div class="progress-track" style="height:10px;background:rgba(0,0,0,0.04)">
-          <div id="overallProgressFill" class="progress-fill" style="background:var(--green);width:0%"></div>
+  <!-- BUDGETS TAB -->
+  <section class="tab-section" id="tab-budgets">
+    <div class="card form-card">
+      <div class="card-title">Set Category Budget</div>
+      <div class="form-grid">
+        <div class="field-group">
+          <label for="budCat">Category</label>
+          <select id="budCat"></select>
+        </div>
+        <div class="field-group">
+          <label for="budAmt">Monthly Limit (₹)</label>
+          <input type="number" id="budAmt" min="0" placeholder="e.g. 5000" />
         </div>
       </div>
-      <div class="card form-card">
-        <div class="card-title">Set Category Budget</div>
-        <div class="form-grid">
-          <div class="field-group">
-            <label for="budCat">Category</label>
-            <select id="budCat"></select>
-=======
-        <div class="charts-row">
-          <div class="card chart-card">
-            <div class="card-title">Spending by Category</div>
-            <div class="chart-wrap"><canvas id="pieChart"></canvas></div>
-            <div id="pieLegend" class="chart-legend"></div>
->>>>>>> 888f966493c4e263715601d62a2db4ae55d73378
-          </div>
-          <div class="card chart-card">
-            <div class="card-title">Daily Spending</div>
-            <div class="chart-wrap"><canvas id="barChart"></canvas></div>
-          </div>
-        </div>
+      <button class="btn-primary" id="saveBudBtn">Set Budget</button>
+    </div>
+    <div class="card">
+      <div class="card-title">Categories</div>
+      <div id="categoryGrid" class="category-grid"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Budget Progress</div>
+      <div id="budgetList">
+        <div class="empty-state">No budgets set yet.</div>
+      </div>
+    </div>
+  </section>
 
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Transactions</div>
-            <div class="filter-pills" id="catFilters"></div>
-          </div>
-          <div class="toolbar-row">
-            <div class="search-box">
-              <input type="text" id="searchTrans" placeholder="Search by description or category" />
-            </div>
-            <div class="sort-row">
-              <select id="sortTrans">
-                <option value="default">Latest first</option>
-                <option value="highToLow">High to Low</option>
-                <option value="lowToHigh">Low to High</option>
-              </select>
-            </div>
-          </div>
-          <div class="expense-list" id="expenseList">
-            <div class="empty-state">No transactions yet. Add your first expense!</div>
-          </div>
-        </div>
-      </section>
+  <!-- RECURRING TAB -->
+  <section class="tab-section" id="tab-recurring">
+    <div class="card">
+      <div class="card-title">Recurring Expenses</div>
+      <div id="recurList">
+        <div class="empty-state">No recurring expenses. Mark one when adding.</div>
+      </div>
+    </div>
+  </section>
 
-      <!-- ADD EXPENSE TAB -->
-      <section class="tab-section" id="tab-add">
-        <div class="card form-card">
-          <div class="card-title">New Transaction</div>
-          <div class="form-grid">
-            <div class="field-group">
-              <label for="addDesc">Description</label>
-              <input type="text" id="addDesc" placeholder="e.g. Groceries, Uber ride" />
-            </div>
-            <div class="field-group">
-              <label for="addAmount">Amount (₹)</label>
-              <input type="number" id="addAmount" min="0" placeholder="0" />
-            </div>
-            <div class="field-group">
-              <label for="addCat">Category</label>
-              <select id="addCat"></select>
-            </div>
-            <div class="field-group">
-              <label for="addDate">Date</label>
-              <input type="date" id="addDate" />
-            </div>
-          </div>
-          <div class="recurring-row">
-            <input type="checkbox" id="addRecurring" />
-            <label for="addRecurring">Mark as recurring monthly expense</label>
-          </div>
-          <div class="form-actions">
-            <button class="btn-secondary" id="clearBtn">Clear</button>
-            <button class="btn-primary" id="addBtn">Add Expense</button>
-          </div>
-          <div class="form-info" id="formInfo"></div>
-        </div>
-      </section>
-
-      <!-- BUDGETS TAB -->
-      <section class="tab-section" id="tab-budgets">
-        <div class="card form-card">
-          <div class="card-title">Set Category Budget</div>
-          <div class="form-grid">
-            <div class="field-group">
-              <label for="budCat">Category</label>
-              <select id="budCat"></select>
-            </div>
-            <div class="field-group">
-              <label for="budAmt">Monthly Limit (₹)</label>
-              <input type="number" id="budAmt" min="0" placeholder="e.g. 5000" />
-            </div>
-          </div>
-          <button class="btn-primary" id="saveBudBtn">Set Budget</button>
-        </div>
-        <div class="card">
-          <div class="card-title">Categories</div>
-          <div id="categoryGrid" class="category-grid"></div>
-        </div>
-        <div class="card">
-          <div class="card-title">Budget Progress</div>
-          <div id="budgetList">
-            <div class="empty-state">No budgets set yet.</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- RECURRING TAB -->
-      <section class="tab-section" id="tab-recurring">
-        <div class="card">
-          <div class="card-title">Recurring Expenses</div>
-          <div id="recurList">
-            <div class="empty-state">No recurring expenses. Mark one when adding.</div>
-          </div>
-        </div>
-      </section>
-
-    </main>
+  </main>
   </div>
 
   <script src="./scripts.js" type="module"></script>
