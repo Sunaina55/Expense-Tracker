@@ -29,6 +29,7 @@ The demo is published from the main branch via GitHub Pages. If the site shows a
 | Feature                   | Description                                                                                          |
 | ------------------------- | ---------------------------------------------------------------------------------------------------- |
 | 📊 **Dashboard**          | Monthly summary with total spent, income, balance, and transaction count                             |
+| 🗓️ **Monthly Overview**   | Switch between months from the dashboard to review historical spending at a glance                   |
 | 🍩 **Spending Charts**    | Doughnut chart by category + daily bar chart (powered by Chart.js)                                   |
 | ➕ **Add Expenses**       | Description, amount, category, date, and recurring flag                                              |
 | 🏷️ **Category System**    | 8 pre-defined categories (Food, Transport, Shopping, Health, Entertainment, Bills, Education, Other) |
@@ -114,6 +115,10 @@ No npm install, no build step — just open and use! ✅
 
 - Use the search box in the Transactions section to quickly find expenses by description or category
 
+### Viewing a Different Month
+
+- Use the month picker in the top bar to switch the dashboard view to any month and review past spending
+
 ### Setting Income
 
 - Enter your monthly income in the **sidebar bottom field** and click **Set**
@@ -123,8 +128,8 @@ No npm install, no build step — just open and use! ✅
 
 ## 📊 Charts
 
-- **Spending by Category** — Doughnut chart showing percentage split across all categories this month
-- **Daily Spending** — Bar chart showing how much you spent each day of the current month
+- **Spending by Category** — Doughnut chart showing percentage split across all categories for the selected month
+- **Daily Spending** — Bar chart showing how much you spent each day of the selected month
 
 ---
 

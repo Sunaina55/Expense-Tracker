@@ -2,6 +2,9 @@
 const STORAGE_EXPENSES = "trackr_expenses_v1";
 const STORAGE_BUDGETS = "trackr_budgets_v1";
 const STORAGE_INCOME = "trackr_income_v1";
+const STORAGE_USERS = "trackr_users_v1";
+const STORAGE_CURRENT_USER = "trackr_current_user_v1";
+const STORAGE_USER_PREFIX = "trackr_user_data_";
 
 const CATEGORIES = [
   { name: "Food", emoji: "🍽", color: "#E85D04", bg: "#FFF0E6" },
@@ -11,38 +14,81 @@ const CATEGORIES = [
   { name: "Entertainment", emoji: "🎬", color: "#0891B2", bg: "#E6F7FB" },
   { name: "Bills", emoji: "📄", color: "#16A34A", bg: "#E8F8EE" },
   { name: "Education", emoji: "📚", color: "#CA8A04", bg: "#FEF9E6" },
+  { name: "Investments", emoji: "📈", color: "#0F766E", bg: "#E6FFFA" },
   { name: "Other", emoji: "📦", color: "#64748B", bg: "#F1F5F9" },
 ];
 
 const CAT_MAP = Object.fromEntries(CATEGORIES.map((c) => [c.name, c]));
 
 // ── State ──────────────────────────────────────────────────
-let expenses = JSON.parse(localStorage.getItem(STORAGE_EXPENSES) || "[]");
-let budgets = JSON.parse(localStorage.getItem(STORAGE_BUDGETS) || "{}");
-let income = parseFloat(localStorage.getItem(STORAGE_INCOME) || "0");
+let users = JSON.parse(localStorage.getItem(STORAGE_USERS) || "[]");
+let currentUser = JSON.parse(
+  localStorage.getItem(STORAGE_CURRENT_USER) || "null",
+);
+let expenses = [];
+let budgets = {};
+let income = 0;
 let activeFilter = "All";
 let editingId = null;
 let searchQuery = "";
+let selectedMonth = new Date().toISOString().slice(0, 7);
 let pieInst = null;
 let barInst = null;
+let authMode = "signin";
 
 // ── Helpers ────────────────────────────────────────────────
 const fmt = (n) => "₹" + Math.abs(Math.round(n)).toLocaleString("en-IN");
 
-function getMonthExpenses() {
-  const now = new Date();
-  return expenses.filter((e) => {
-    const d = new Date(e.date);
-    return (
-      d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()
+function sanitizeUsername(value) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function getUserStorageKey(username) {
+  return `${STORAGE_USER_PREFIX}${sanitizeUsername(username)}`;
+}
+
+function loadUserData() {
+  if (currentUser) {
+    const saved = JSON.parse(
+      localStorage.getItem(getUserStorageKey(currentUser.username)) ||
+        '{"expenses":[],"budgets":{},"income":0}',
     );
-  });
+    expenses = saved.expenses || [];
+    budgets = saved.budgets || {};
+    income = Number(saved.income) || 0;
+    return;
+  }
+
+  expenses = JSON.parse(localStorage.getItem(STORAGE_EXPENSES) || "[]");
+  budgets = JSON.parse(localStorage.getItem(STORAGE_BUDGETS) || "{}");
+  income = parseFloat(localStorage.getItem(STORAGE_INCOME) || "0");
 }
 
 function save() {
+  if (currentUser) {
+    localStorage.setItem(
+      getUserStorageKey(currentUser.username),
+      JSON.stringify({ expenses, budgets, income }),
+    );
+    localStorage.setItem(STORAGE_CURRENT_USER, JSON.stringify(currentUser));
+    return;
+  }
+
   localStorage.setItem(STORAGE_EXPENSES, JSON.stringify(expenses));
   localStorage.setItem(STORAGE_BUDGETS, JSON.stringify(budgets));
   localStorage.setItem(STORAGE_INCOME, income);
+}
+
+function getMonthExpenses(monthValue = selectedMonth) {
+  const [year, month] = (monthValue || selectedMonth).split("-").map(Number);
+  return expenses.filter((e) => {
+    const d = new Date(e.date);
+    return d.getFullYear() === year && d.getMonth() === month - 1;
+  });
 }
 
 function getCatTotals(list) {
@@ -105,11 +151,12 @@ function renderMetrics() {
 
   document.getElementById("m-count").textContent = me.length;
 
-  const now = new Date();
-  document.getElementById("monthLabel").textContent = now.toLocaleDateString(
-    "en-IN",
-    { month: "long", year: "numeric" },
-  );
+  const selectedDate = new Date(`${selectedMonth}-01`);
+  document.getElementById("monthLabel").textContent =
+    selectedDate.toLocaleDateString("en-IN", {
+      month: "long",
+      year: "numeric",
+    });
 }
 
 // ── Expense List ───────────────────────────────────────────
@@ -211,6 +258,7 @@ document.getElementById("addBtn").addEventListener("click", () => {
 
   info.textContent = "";
   expenses.unshift({ id: Date.now(), desc, amt, cat, date, recur });
+  selectedMonth = new Date().toISOString().slice(0, 7);
   save();
   document.getElementById("addDesc").value = "";
   document.getElementById("addAmount").value = "";
@@ -349,6 +397,50 @@ function renderBudgets() {
     })
     .join("");
 }
+
+// ── Category Grid (Budgets + quick actions) ───────────────
+function renderCategoryGrid() {
+  const catTotals = getCatTotals(getMonthExpenses());
+  const counts = {};
+  getMonthExpenses().forEach((e) => (counts[e.cat] = (counts[e.cat] || 0) + 1));
+  const grid = document.getElementById("categoryGrid");
+  if (!grid) return;
+
+  grid.innerHTML = CATEGORIES.map((c) => {
+    const spent = catTotals[c.name] || 0;
+    const txCount = counts[c.name] || 0;
+    const budgetSet = budgets[c.name] !== undefined;
+    const budgetLabel = budgetSet
+      ? fmt(budgets[c.name])
+      : `<button class=\"btn-secondary small set-budget-btn\" onclick=\"setBudgetForCategory('${c.name}')\">Set Budget</button>`;
+    return `
+      <div class="cat-card">
+          <div class="cat-top">
+          <div class="cat-icon" style="background:${c.bg};color:${c.color}">${c.emoji}</div>
+          <div class="cat-info">
+            <div class="cat-name">${c.name}</div>
+            <div class="cat-count">${txCount} transactions</div>
+          </div>
+        </div>
+        <div class="cat-bottom">
+          <div class="cat-amount">${fmt(spent)}</div>
+          <div class="cat-action">${budgetLabel}</div>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+window.setBudgetForCategory = function (catName) {
+  const select = document.getElementById("budCat");
+  const amt = document.getElementById("budAmt");
+  if (select) select.value = catName;
+  if (amt) amt.focus();
+  switchTab("budgets");
+  // scroll the budget form into view
+  document
+    .querySelector("#tab-budgets .form-card")
+    ?.scrollIntoView({ behavior: "smooth", block: "center" });
+};
 
 // ── Recurring ──────────────────────────────────────────────
 function renderRecurring() {
@@ -518,10 +610,15 @@ document.getElementById("searchTrans").addEventListener("input", (e) => {
   renderExpenseList();
 });
 
+document.getElementById("monthPicker").addEventListener("change", (e) => {
+  selectedMonth = e.target.value;
+  renderAll();
+});
+
 document
   .getElementById("sortTrans")
   .addEventListener("change", renderExpenseList);
-
+  
 // ── Render All ─────────────────────────────────────────────
 function renderAll() {
   renderMetrics();
@@ -529,13 +626,34 @@ function renderAll() {
   renderExpenseList();
   renderBudgets();
   renderRecurring();
+  renderCategoryGrid();
   renderCharts();
 }
 
 // ── Init ───────────────────────────────────────────────────
+loadUserData();
 document.getElementById("addDate").value = new Date()
   .toISOString()
   .split("T")[0];
+document.getElementById("monthPicker").value = selectedMonth;
 if (income) document.getElementById("incomeInput").value = income;
 populateSelects();
-renderAll();
+setAuthMode("signin");
+updateAuthUI();
+if (currentUser) {
+  renderAll();
+}
+
+document
+  .getElementById("authForm")
+  .addEventListener("submit", handleAuthSubmit);
+document
+  .getElementById("showSignin")
+  .addEventListener("click", () => setAuthMode("signin"));
+document
+  .getElementById("showSignup")
+  .addEventListener("click", () => setAuthMode("signup"));
+document.getElementById("authSwitchBtn").addEventListener("click", () => {
+  setAuthMode(authMode === "signin" ? "signup" : "signin");
+});
+document.getElementById("logoutBtn").addEventListener("click", logoutUser);
