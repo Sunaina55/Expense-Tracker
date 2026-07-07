@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Expense Trackr</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Syne:wght@600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Syne:wght@600;700&display=swap"
+    rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 
   <!-- Open Graph / Link Preview -->
-<meta property="og:title" content="Trackr — Expense Tracker App" />
-<meta property="og:description" content="A clean, minimal personal finance tracker built with HTML, CSS & JavaScript." />
-<meta property="og:image" content="https://sunaina55.github.io/Expense-Tracker/Assets/preview.png" />
-<meta property="og:url" content="https://sunaina55.github.io/Expense-Tracker/" />
-<meta property="og:type" content="website" />
+  <meta property="og:title" content="Trackr — Expense Tracker App" />
+  <meta property="og:description"
+    content="A clean, minimal personal finance tracker built with HTML, CSS & JavaScript." />
+  <meta property="og:image" content="https://sunaina55.github.io/Expense-Tracker/Assets/preview.png" />
+  <meta property="og:url" content="https://sunaina55.github.io/Expense-Tracker/" />
+  <meta property="og:type" content="website" />
 </head>
+
 <body>
 
   <!-- EDIT MODAL -->
@@ -50,19 +54,35 @@
     </div>
     <nav class="sidebar-nav">
       <button class="nav-item active" data-tab="dashboard">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" />
+          <rect x="14" y="3" width="7" height="7" />
+          <rect x="14" y="14" width="7" height="7" />
+          <rect x="3" y="14" width="7" height="7" />
+        </svg>
         Dashboard
       </button>
       <button class="nav-item" data-tab="add">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="16" />
+          <line x1="8" y1="12" x2="16" y2="12" />
+        </svg>
         Add Expense
       </button>
       <button class="nav-item" data-tab="budgets">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5z" />
+          <path d="M2 17l10 5 10-5" />
+          <path d="M2 12l10 5 10-5" />
+        </svg>
         Budgets
       </button>
       <button class="nav-item" data-tab="recurring">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="23 4 23 10 17 10" />
+          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+        </svg>
         Recurring
       </button>
     </nav>
@@ -129,6 +149,18 @@
           <div class="card-title">Transactions</div>
           <div class="filter-pills" id="catFilters"></div>
         </div>
+        <div class="toolbar-row">
+          <div class="search-box">
+            <input type="text" id="searchTrans" placeholder="Search by description or category" />
+          </div>
+          <div class="sort-row">
+            <select id="sortTrans">
+              <option value="default">Latest first</option>
+              <option value="highToLow">High to Low</option>
+              <option value="lowToHigh">Low to High</option>
+            </select>
+          </div>
+        </div>
         <div class="sort-row">
           <select id="sortTrans">
             <option value="default">Latest first</option>
@@ -194,7 +226,9 @@
       </div>
       <div class="card">
         <div class="card-title">Budget Progress</div>
-        <div id="budgetList"><div class="empty-state">No budgets set yet.</div></div>
+        <div id="budgetList">
+          <div class="empty-state">No budgets set yet.</div>
+        </div>
       </div>
     </section>
 
@@ -202,7 +236,9 @@
     <section class="tab-section" id="tab-recurring">
       <div class="card">
         <div class="card-title">Recurring Expenses</div>
-        <div id="recurList"><div class="empty-state">No recurring expenses. Mark one when adding.</div></div>
+        <div id="recurList">
+          <div class="empty-state">No recurring expenses. Mark one when adding.</div>
+        </div>
       </div>
     </section>
 
@@ -210,4 +246,5 @@
 
   <script src="./scripts.js" type="module"></script>
 </body>
+
 </html>

@@ -6,7 +6,7 @@ A clean, minimal personal finance tracker built with vanilla HTML, CSS, and Java
 
 ## 🖥️ Live Preview
 
-> [Click here to view the live demo]( https://sunaina55.github.io/Expense-Tracker/)
+> [Click here to view the live demo](https://sunaina55.github.io/Expense-Tracker/)
 
 The demo is published from the main branch via GitHub Pages. If the site shows an error, make sure the workflow has run successfully in the Actions tab and that GitHub Pages is enabled for the repository.
 
@@ -15,39 +15,41 @@ The demo is published from the main branch via GitHub Pages. If the site shows a
 ## 📸 Preview
 
 ### 🖥️ Desktop
+
 ![Desktop Preview](./Assets/desktop-preview.png)
 
 ### 📱 Mobile
+
 <img src="./Assets/mobile-preview.png" width="300" />
 
 ---
 
 ## ✨ Features
- 
-| Feature | Description |
-|---------|-------------|
-| 📊 **Dashboard** | Monthly summary with total spent, income, balance, and transaction count |
-| 🍩 **Spending Charts** | Doughnut chart by category + daily bar chart (powered by Chart.js) |
-| ➕ **Add Expenses** | Description, amount, category, date, and recurring flag |
-| 🏷️ **Category System** | 8 pre-defined categories (Food, Transport, Shopping, Health, Entertainment, Bills, Education, Other) |
-| 🎯 **Budget Goals** | Set monthly limits per category with live progress bars and over-budget alerts |
-| 🔁 **Recurring Expenses** | Mark expenses as monthly recurring and track total fixed costs |
-| ✏️ **Edit & Delete** | Modify any transaction via modal or remove it instantly |
-| 🔍 **Sort & Filter** | Filter transactions by category, sort by date or amount |
-| 💾 **Persistent Storage** | All data saved in `localStorage`, no backend needed |
-| 📱 **Responsive Design** | Works on desktop and mobile with a collapsible sidebar |
- 
+
+| Feature                   | Description                                                                                          |
+| ------------------------- | ---------------------------------------------------------------------------------------------------- |
+| 📊 **Dashboard**          | Monthly summary with total spent, income, balance, and transaction count                             |
+| 🍩 **Spending Charts**    | Doughnut chart by category + daily bar chart (powered by Chart.js)                                   |
+| ➕ **Add Expenses**       | Description, amount, category, date, and recurring flag                                              |
+| 🏷️ **Category System**    | 8 pre-defined categories (Food, Transport, Shopping, Health, Entertainment, Bills, Education, Other) |
+| 🎯 **Budget Goals**       | Set monthly limits per category with live progress bars and over-budget alerts                       |
+| 🔁 **Recurring Expenses** | Mark expenses as monthly recurring and track total fixed costs                                       |
+| ✏️ **Edit & Delete**      | Modify any transaction via modal or remove it instantly                                              |
+| 🔍 **Sort & Filter**      | Filter transactions by category, sort by date or amount, and search by description or category       |
+| 💾 **Persistent Storage** | All data saved in `localStorage`, no backend needed                                                  |
+| 📱 **Responsive Design**  | Works on desktop and mobile with a collapsible sidebar                                               |
+
 ---
 
 ## 🛠️ Tech Stack
 
-| Technology | Purpose |
-|------------|---------|
-| HTML5 | Structure & markup |
-| CSS3 | Styling, layout, responsive design |
+| Technology        | Purpose                                   |
+| ----------------- | ----------------------------------------- |
+| HTML5             | Structure & markup                        |
+| CSS3              | Styling, layout, responsive design        |
 | JavaScript (ES6+) | App logic, localStorage, DOM manipulation |
-| Chart.js | Doughnut & bar charts |
-| Google Fonts | DM Sans + Syne typography |
+| Chart.js          | Doughnut & bar charts                     |
+| Google Fonts      | DM Sans + Syne typography                 |
 
 ---
 
@@ -91,21 +93,29 @@ No npm install, no build step — just open and use! ✅
 ## 📖 How to Use
 
 ### Adding an Expense
+
 1. Click **Add Expense** in the sidebar
 2. Fill in description, amount, category, and date
 3. Optionally check **Recurring monthly** for fixed costs
 4. Click **Add Expense** — it appears instantly on the dashboard
 
 ### Setting a Budget
+
 1. Click **Budgets** in the sidebar
 2. Select a category and enter a monthly limit
 3. Click **Set Budget** — a progress bar will track your spending live
 
 ### Editing or Deleting
+
 - Click the ✎ icon on any transaction to edit amount, description, or category
 - Click the ✕ icon to delete it
 
+### Searching Transactions
+
+- Use the search box in the Transactions section to quickly find expenses by description or category
+
 ### Setting Income
+
 - Enter your monthly income in the **sidebar bottom field** and click **Set**
 - Your balance (income − spending) updates automatically
 
@@ -122,11 +132,11 @@ No npm install, no build step — just open and use! ✅
 
 All data is stored in your browser's `localStorage` under these keys:
 
-| Key | Contents |
-|-----|----------|
-| `trackr_expenses_v1` | All expense entries |
-| `trackr_budgets_v1` | Category budget limits |
-| `trackr_income_v1` | Monthly income value |
+| Key                  | Contents               |
+| -------------------- | ---------------------- |
+| `trackr_expenses_v1` | All expense entries    |
+| `trackr_budgets_v1`  | Category budget limits |
+| `trackr_income_v1`   | Monthly income value   |
 
 > ⚠️ Clearing browser data will erase all entries. No cloud sync is included.
 
@@ -142,6 +152,7 @@ All data is stored in your browser's `localStorage` under these keys:
 ## 📬 Contact
 
 **Sunaina**
+
 - GitHub: [@Sunaina55](https://github.com/Sunaina55)
 
 ---
