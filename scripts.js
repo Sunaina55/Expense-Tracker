@@ -2,6 +2,9 @@
 const STORAGE_EXPENSES = "trackr_expenses_v1";
 const STORAGE_BUDGETS = "trackr_budgets_v1";
 const STORAGE_INCOME = "trackr_income_v1";
+const STORAGE_USERS = "trackr_users_v1";
+const STORAGE_CURRENT_USER = "trackr_current_user_v1";
+const STORAGE_USER_PREFIX = "trackr_user_data_";
 
 const CATEGORIES = [
   { name: "Food", emoji: "🍽", color: "#E85D04", bg: "#FFF0E6" },
@@ -17,18 +20,67 @@ const CATEGORIES = [
 const CAT_MAP = Object.fromEntries(CATEGORIES.map((c) => [c.name, c]));
 
 // ── State ──────────────────────────────────────────────────
-let expenses = JSON.parse(localStorage.getItem(STORAGE_EXPENSES) || "[]");
-let budgets = JSON.parse(localStorage.getItem(STORAGE_BUDGETS) || "{}");
-let income = parseFloat(localStorage.getItem(STORAGE_INCOME) || "0");
+let users = JSON.parse(localStorage.getItem(STORAGE_USERS) || "[]");
+let currentUser = JSON.parse(
+  localStorage.getItem(STORAGE_CURRENT_USER) || "null",
+);
+let expenses = [];
+let budgets = {};
+let income = 0;
 let activeFilter = "All";
 let editingId = null;
 let searchQuery = "";
 let selectedMonth = new Date().toISOString().slice(0, 7);
 let pieInst = null;
 let barInst = null;
+let authMode = "signin";
 
 // ── Helpers ────────────────────────────────────────────────
 const fmt = (n) => "₹" + Math.abs(Math.round(n)).toLocaleString("en-IN");
+
+function sanitizeUsername(value) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function getUserStorageKey(username) {
+  return `${STORAGE_USER_PREFIX}${sanitizeUsername(username)}`;
+}
+
+function loadUserData() {
+  if (currentUser) {
+    const saved = JSON.parse(
+      localStorage.getItem(getUserStorageKey(currentUser.username)) ||
+        '{"expenses":[],"budgets":{},"income":0}',
+    );
+    expenses = saved.expenses || [];
+    budgets = saved.budgets || {};
+    income = Number(saved.income) || 0;
+    return;
+  }
+
+  expenses = JSON.parse(localStorage.getItem(STORAGE_EXPENSES) || "[]");
+  budgets = JSON.parse(localStorage.getItem(STORAGE_BUDGETS) || "{}");
+  income = parseFloat(localStorage.getItem(STORAGE_INCOME) || "0");
+}
+
+function save() {
+  if (currentUser) {
+    localStorage.setItem(
+      getUserStorageKey(currentUser.username),
+      JSON.stringify({ expenses, budgets, income }),
+    );
+    localStorage.setItem(STORAGE_CURRENT_USER, JSON.stringify(currentUser));
+    return;
+  }
+
+  localStorage.setItem(STORAGE_EXPENSES, JSON.stringify(expenses));
+  localStorage.setItem(STORAGE_BUDGETS, JSON.stringify(budgets));
+  localStorage.setItem(STORAGE_INCOME, income);
+}
 
 function getMonthExpenses(monthValue = selectedMonth) {
   const [year, month] = (monthValue || selectedMonth).split("-").map(Number);
@@ -36,12 +88,6 @@ function getMonthExpenses(monthValue = selectedMonth) {
     const d = new Date(e.date);
     return d.getFullYear() === year && d.getMonth() === month - 1;
   });
-}
-
-function save() {
-  localStorage.setItem(STORAGE_EXPENSES, JSON.stringify(expenses));
-  localStorage.setItem(STORAGE_BUDGETS, JSON.stringify(budgets));
-  localStorage.setItem(STORAGE_INCOME, income);
 }
 
 function getCatTotals(list) {
@@ -503,6 +549,111 @@ document
   .getElementById("sortTrans")
   .addEventListener("change", renderExpenseList);
 
+// ── Auth ───────────────────────────────────────────────────
+function saveUsers() {
+  localStorage.setItem(STORAGE_USERS, JSON.stringify(users));
+}
+
+function setAuthMode(mode) {
+  authMode = mode;
+  const title = document.getElementById("authTitle");
+  const subtitle = document.getElementById("authSubtitle");
+  const submit = document.getElementById("authSubmit");
+  const switchText = document.getElementById("authSwitchText");
+  const switchBtn = document.getElementById("authSwitchBtn");
+  const signinTab = document.getElementById("showSignin");
+  const signupTab = document.getElementById("showSignup");
+
+  signinTab.classList.toggle("active", mode === "signin");
+  signupTab.classList.toggle("active", mode === "signup");
+
+  if (mode === "signin") {
+    title.textContent = "Welcome back";
+    subtitle.textContent = "Sign in to keep your expenses safe and private.";
+    submit.textContent = "Sign In";
+    switchText.textContent = "Need an account?";
+    switchBtn.textContent = "Create one";
+  } else {
+    title.textContent = "Create your account";
+    subtitle.textContent = "Save your data and come back anytime.";
+    submit.textContent = "Create Account";
+    switchText.textContent = "Already have one?";
+    switchBtn.textContent = "Sign in";
+  }
+}
+
+function updateAuthUI() {
+  const app = document.getElementById("appShell");
+  const auth = document.getElementById("authOverlay");
+  const userLabel = document.getElementById("userNameLabel");
+  const loggedIn = Boolean(currentUser);
+
+  app.classList.toggle("hidden", !loggedIn);
+  auth.classList.toggle("hidden", loggedIn);
+  userLabel.textContent = currentUser ? currentUser.username : "Guest";
+}
+
+function loginUser(user) {
+  currentUser = user;
+  localStorage.setItem(STORAGE_CURRENT_USER, JSON.stringify(currentUser));
+  loadUserData();
+  updateAuthUI();
+  document.getElementById("incomeInput").value = income || "";
+  populateSelects();
+  renderAll();
+  switchTab("dashboard");
+}
+
+function logoutUser() {
+  currentUser = null;
+  localStorage.removeItem(STORAGE_CURRENT_USER);
+  updateAuthUI();
+}
+
+function handleAuthSubmit(event) {
+  event.preventDefault();
+  const username = document.getElementById("authUsername").value.trim();
+  const password = document.getElementById("authPassword").value;
+  const info = document.getElementById("authInfo");
+
+  if (!username || !password) {
+    info.textContent = "Please enter both username and password.";
+    return;
+  }
+
+  if (authMode === "signup") {
+    if (
+      users.some((u) => u.username.toLowerCase() === username.toLowerCase())
+    ) {
+      info.textContent = "That username is already taken.";
+      return;
+    }
+
+    const newUser = { username, password };
+    users.push(newUser);
+    saveUsers();
+    loginUser(newUser);
+    document.getElementById("authForm").reset();
+    info.textContent = "Account created. You are now signed in.";
+    return;
+  }
+
+  const match = users.find(
+    (u) =>
+      u.username.toLowerCase() === username.toLowerCase() &&
+      u.password === password,
+  );
+
+  if (!match) {
+    info.textContent = "Incorrect username or password.";
+    return;
+  }
+
+  loginUser(match);
+  document.getElementById("authForm").reset();
+  info.textContent = "Signed in successfully.";
+}
+
 // ── Render All ─────────────────────────────────────────────
 function renderAll() {
   renderMetrics();
@@ -514,10 +665,29 @@ function renderAll() {
 }
 
 // ── Init ───────────────────────────────────────────────────
+loadUserData();
 document.getElementById("addDate").value = new Date()
   .toISOString()
   .split("T")[0];
 document.getElementById("monthPicker").value = selectedMonth;
 if (income) document.getElementById("incomeInput").value = income;
 populateSelects();
-renderAll();
+setAuthMode("signin");
+updateAuthUI();
+if (currentUser) {
+  renderAll();
+}
+
+document
+  .getElementById("authForm")
+  .addEventListener("submit", handleAuthSubmit);
+document
+  .getElementById("showSignin")
+  .addEventListener("click", () => setAuthMode("signin"));
+document
+  .getElementById("showSignup")
+  .addEventListener("click", () => setAuthMode("signup"));
+document.getElementById("authSwitchBtn").addEventListener("click", () => {
+  setAuthMode(authMode === "signin" ? "signup" : "signin");
+});
+document.getElementById("logoutBtn").addEventListener("click", logoutUser);

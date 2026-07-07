@@ -230,6 +230,27 @@ body {
   margin-right: 1rem;
 }
 
+.topbar-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 0.75rem;
+}
+
+.user-chip {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(26, 26, 24, 0.08);
+  font-size: 13px;
+  color: var(--text-1);
+  font-weight: 600;
+}
+
+.btn-secondary.small {
+  padding: 7px 12px;
+  font-size: 12px;
+}
+
 .month-picker-label {
   font-size: 12px;
   color: var(--text-3);
@@ -562,6 +583,7 @@ body {
 input[type="text"],
 input[type="number"],
 input[type="date"],
+input[type="password"],
 select {
   width: 100%;
   padding: 9px 12px;
@@ -792,6 +814,101 @@ input::placeholder {
   flex-direction: column;
   gap: 1rem;
   margin-bottom: 1rem;
+}
+
+/* ── Auth ─────────────────────────────────────────────────── */
+.app-shell.hidden {
+  display: none;
+}
+
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #f4efe8 0%, #ece9e6 100%);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  z-index: 300;
+}
+
+.auth-overlay.hidden {
+  display: none;
+}
+
+.auth-card {
+  width: min(100%, 420px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.5rem;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.12);
+}
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.auth-heading h1 {
+  font-family: "Syne", sans-serif;
+  font-size: 24px;
+  margin-bottom: 0.35rem;
+}
+
+.auth-heading p {
+  color: var(--text-2);
+  font-size: 14px;
+  margin-bottom: 1rem;
+}
+
+.auth-mode-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.auth-tab {
+  flex: 1;
+  border: 1px solid var(--border-md);
+  background: transparent;
+  padding: 8px 10px;
+  border-radius: 999px;
+  font-family: "DM Sans", sans-serif;
+  cursor: pointer;
+  color: var(--text-2);
+}
+
+.auth-tab.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.auth-switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 1rem;
+  font-size: 14px;
+  color: var(--text-2);
+}
+
+.text-btn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-weight: 600;
+  font-family: "DM Sans", sans-serif;
 }
 
 /* ── Empty State ──────────────────────────────────────────── */
