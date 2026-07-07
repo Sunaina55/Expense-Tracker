@@ -23,19 +23,18 @@ let income = parseFloat(localStorage.getItem(STORAGE_INCOME) || "0");
 let activeFilter = "All";
 let editingId = null;
 let searchQuery = "";
+let selectedMonth = new Date().toISOString().slice(0, 7);
 let pieInst = null;
 let barInst = null;
 
 // ── Helpers ────────────────────────────────────────────────
 const fmt = (n) => "₹" + Math.abs(Math.round(n)).toLocaleString("en-IN");
 
-function getMonthExpenses() {
-  const now = new Date();
+function getMonthExpenses(monthValue = selectedMonth) {
+  const [year, month] = (monthValue || selectedMonth).split("-").map(Number);
   return expenses.filter((e) => {
     const d = new Date(e.date);
-    return (
-      d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()
-    );
+    return d.getFullYear() === year && d.getMonth() === month - 1;
   });
 }
 
@@ -105,11 +104,12 @@ function renderMetrics() {
 
   document.getElementById("m-count").textContent = me.length;
 
-  const now = new Date();
-  document.getElementById("monthLabel").textContent = now.toLocaleDateString(
-    "en-IN",
-    { month: "long", year: "numeric" },
-  );
+  const selectedDate = new Date(`${selectedMonth}-01`);
+  document.getElementById("monthLabel").textContent =
+    selectedDate.toLocaleDateString("en-IN", {
+      month: "long",
+      year: "numeric",
+    });
 }
 
 // ── Expense List ───────────────────────────────────────────
@@ -211,6 +211,7 @@ document.getElementById("addBtn").addEventListener("click", () => {
 
   info.textContent = "";
   expenses.unshift({ id: Date.now(), desc, amt, cat, date, recur });
+  selectedMonth = new Date().toISOString().slice(0, 7);
   save();
   document.getElementById("addDesc").value = "";
   document.getElementById("addAmount").value = "";
@@ -493,10 +494,15 @@ document.getElementById("searchTrans").addEventListener("input", (e) => {
   renderExpenseList();
 });
 
+document.getElementById("monthPicker").addEventListener("change", (e) => {
+  selectedMonth = e.target.value;
+  renderAll();
+});
+
 document
   .getElementById("sortTrans")
   .addEventListener("change", renderExpenseList);
-  
+
 // ── Render All ─────────────────────────────────────────────
 function renderAll() {
   renderMetrics();
@@ -511,6 +517,7 @@ function renderAll() {
 document.getElementById("addDate").value = new Date()
   .toISOString()
   .split("T")[0];
+document.getElementById("monthPicker").value = selectedMonth;
 if (income) document.getElementById("incomeInput").value = income;
 populateSelects();
 renderAll();

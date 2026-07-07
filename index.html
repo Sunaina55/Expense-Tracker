@@ -104,6 +104,10 @@
         <div class="topbar-title" id="tabTitle">Dashboard</div>
         <div class="topbar-sub" id="monthLabel"></div>
       </div>
+      <div class="topbar-controls">
+        <label class="month-picker-label" for="monthPicker">View month</label>
+        <input type="month" id="monthPicker" />
+      </div>
       <button class="mobile-menu-btn" id="mobileMenu">&#9776;</button>
     </header>
 
@@ -160,13 +164,6 @@
               <option value="lowToHigh">Low to High</option>
             </select>
           </div>
-        </div>
-        <div class="sort-row">
-          <select id="sortTrans">
-            <option value="default">Latest first</option>
-            <option value="highToLow">High to Low</option>
-            <option value="lowToHigh">Low to High</option>
-          </select>
         </div>
         <div class="expense-list" id="expenseList">
           <div class="empty-state">No transactions yet. Add your first expense!</div>
