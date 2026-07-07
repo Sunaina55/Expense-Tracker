@@ -295,18 +295,27 @@ function renderBudgets() {
   const keys = Object.keys(budgets);
 
   // Update budget header metrics
-  const totalBudget = keys.length ? keys.reduce((s, k) => s + (budgets[k] || 0), 0) : 0;
+  const totalBudget = keys.length
+    ? keys.reduce((s, k) => s + (budgets[k] || 0), 0)
+    : 0;
   const totalSpent = Object.values(catTotals).reduce((a, b) => a + b, 0);
   const remaining = totalBudget - totalSpent;
   if (document.getElementById("m-total-budget"))
-    document.getElementById("m-total-budget").textContent = totalBudget ? fmt(totalBudget) : "₹0";
+    document.getElementById("m-total-budget").textContent = totalBudget
+      ? fmt(totalBudget)
+      : "₹0";
   if (document.getElementById("m-bud-spent"))
     document.getElementById("m-bud-spent").textContent = fmt(totalSpent);
   if (document.getElementById("m-bud-remaining"))
-    document.getElementById("m-bud-remaining").textContent = totalBudget ? fmt(remaining) : "—";
-  const overallPct = totalBudget ? Math.min(100, Math.round((totalSpent / totalBudget) * 100)) : 0;
+    document.getElementById("m-bud-remaining").textContent = totalBudget
+      ? fmt(remaining)
+      : "—";
+  const overallPct = totalBudget
+    ? Math.min(100, Math.round((totalSpent / totalBudget) * 100))
+    : 0;
   const overallLabel = document.getElementById("overallPctLabel");
-  if (overallLabel) overallLabel.textContent = `${overallPct}% of monthly budget used`;
+  if (overallLabel)
+    overallLabel.textContent = `${overallPct}% of monthly budget used`;
   const overallFill = document.getElementById("overallProgressFill");
   if (overallFill) overallFill.style.width = overallPct + "%";
   if (!keys.length) {
@@ -512,7 +521,7 @@ document.getElementById("searchTrans").addEventListener("input", (e) => {
 document
   .getElementById("sortTrans")
   .addEventListener("change", renderExpenseList);
-  
+
 // ── Render All ─────────────────────────────────────────────
 function renderAll() {
   renderMetrics();
