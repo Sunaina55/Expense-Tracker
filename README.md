@@ -33,10 +33,10 @@ The demo is published from the main branch via GitHub Pages. If the site shows a
 | 🍩 **Spending Charts**    | Doughnut chart by category + daily bar chart (powered by Chart.js)                                   |
 | ➕ **Add Expenses**       | Description, amount, category, date, and recurring flag                                              |
 | 🏷️ **Category System**    | 8 pre-defined categories (Food, Transport, Shopping, Health, Entertainment, Bills, Education, Other) |
-| 🎯 **Budget Goals**       | Set monthly limits per category with live progress bars and over-budget alerts                       |
+| 🎯 **Budget Goals**       | Set monthly limits per category                      |
 | 🔁 **Recurring Expenses** | Mark expenses as monthly recurring and track total fixed costs                                       |
 | ✏️ **Edit & Delete**      | Modify any transaction via modal or remove it instantly                                              |
-| 🔍 **Sort & Filter**      | Filter transactions by category, sort by date or amount, and search by description or category       |
+| 🔍 **Sort & Filter**      | Filter transactions by category, sort by date or amount                       |
 | 💾 **Persistent Storage** | All data saved in `localStorage`, no backend needed                                                  |
 | 📱 **Responsive Design**  | Works on desktop and mobile with a collapsible sidebar                                               |
 
