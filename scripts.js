@@ -21,6 +21,9 @@ let expenses = JSON.parse(localStorage.getItem(STORAGE_EXPENSES) || "[]");
 let budgets = JSON.parse(localStorage.getItem(STORAGE_BUDGETS) || "{}");
 let income = parseFloat(localStorage.getItem(STORAGE_INCOME) || "0");
 let activeFilter = "All";
+let selectedMonth = new Date().getMonth();
+let selectedYear = new Date().getFullYear();
+let searchQuery = "";
 let editingId = null;
 let pieInst = null;
 let barInst = null;
@@ -29,12 +32,9 @@ let barInst = null;
 const fmt = (n) => "₹" + Math.abs(Math.round(n)).toLocaleString("en-IN");
 
 function getMonthExpenses() {
-  const now = new Date();
   return expenses.filter((e) => {
     const d = new Date(e.date);
-    return (
-      d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()
-    );
+    return d.getMonth() === selectedMonth && d.getFullYear() === selectedYear;
   });
 }
 
@@ -104,11 +104,12 @@ function renderMetrics() {
 
   document.getElementById("m-count").textContent = me.length;
 
-  const now = new Date();
-  document.getElementById("monthLabel").textContent = now.toLocaleDateString(
-    "en-IN",
-    { month: "long", year: "numeric" },
-  );
+  document.getElementById("m-count").textContent = me.length;
+
+  document.getElementById("monthLabel").textContent = new Date(
+    selectedYear,
+    selectedMonth,
+  ).toLocaleDateString("en-IN", { month: "long", year: "numeric" });
 }
 
 // ── Expense List ───────────────────────────────────────────
@@ -117,7 +118,15 @@ function renderExpenseList() {
   let list =
     activeFilter === "All" ? me : me.filter((e) => e.cat === activeFilter);
 
+  if (searchQuery) {
+    list = list.filter(
+      (e) =>
+        e.desc.toLowerCase().includes(searchQuery) ||
+        e.cat.toLowerCase().includes(searchQuery),
+    );
+  }
   const sort = document.getElementById("sortTrans").value;
+
   if (sort === "highToLow") list = [...list].sort((a, b) => b.amt - a.amt);
   if (sort === "lowToHigh") list = [...list].sort((a, b) => a.amt - b.amt);
 
@@ -500,6 +509,20 @@ document
   .getElementById("sortTrans")
   .addEventListener("change", renderExpenseList);
 
+// ── Search ─────────────────────────────────────────────────
+document.getElementById("searchInput").addEventListener("input", (e) => {
+  searchQuery = e.target.value.trim().toLowerCase();
+  renderExpenseList();
+});
+
+// ── Month Picker ───────────────────────────────────────────
+document.getElementById("monthPicker").addEventListener("change", (e) => {
+  if (!e.target.value) return;
+  const [y, m] = e.target.value.split("-").map(Number);
+  selectedYear = y;
+  selectedMonth = m - 1;
+  renderAll();
+});
 // ── Render All ─────────────────────────────────────────────
 function renderAll() {
   renderMetrics();
@@ -514,6 +537,9 @@ function renderAll() {
 document.getElementById("addDate").value = new Date()
   .toISOString()
   .split("T")[0];
+document.getElementById("monthPicker").value = new Date()
+  .toISOString()
+  .slice(0, 7);
 if (income) document.getElementById("incomeInput").value = income;
 populateSelects();
 renderAll();
