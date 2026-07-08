@@ -13,7 +13,7 @@ The demo is published from the main branch via GitHub Pages. If the site shows a
 ---
 
 ## 📸 Preview
-z
+
 ### 🖥️ Desktop
 
 ![Desktop Preview](./Assets/desktop-preview.png)
@@ -29,14 +29,15 @@ z
 | Feature                   | Description                                                                                          |
 | ------------------------- | ---------------------------------------------------------------------------------------------------- |
 | 📊 **Dashboard**          | Monthly summary with total spent, income, balance, and transaction count                             |
-| 🗓️ **Monthly Overview**   | Switch between months from the dashboard to review historical spending at a glance                   |
-| 🍩 **Spending Charts**    | Doughnut chart by category + daily bar chart (powered by Chart.js)                                   |
+| 🗓️ **Month Picker**       | Switch between any month using the month selector in the top bar to review historical spending       |
+| 🍩 **Spending Charts**    | Doughnut chart by category + daily bar chart (powered by Chart.js), updates based on selected month  |
 | ➕ **Add Expenses**       | Description, amount, category, date, and recurring flag                                              |
 | 🏷️ **Category System**    | 8 pre-defined categories (Food, Transport, Shopping, Health, Entertainment, Bills, Education, Other) |
-| 🎯 **Budget Goals**       | Set monthly limits per category                      |
+| 🎯 **Budget Goals**       | Set monthly limits per category with live progress bars                                              |
 | 🔁 **Recurring Expenses** | Mark expenses as monthly recurring and track total fixed costs                                       |
 | ✏️ **Edit & Delete**      | Modify any transaction via modal or remove it instantly                                              |
-| 🔍 **Sort & Filter**      | Filter transactions by category, sort by date or amount                       |
+| 🔍 **Search & Filter**    | Search transactions by description or category, filter by category pills, and sort by amount         |
+| 🌗 **Dark / Light Mode**  | Toggle between themes with a single click; preference is remembered on reload                        |
 | 💾 **Persistent Storage** | All data saved in `localStorage`, no backend needed                                                  |
 | 📱 **Responsive Design**  | Works on desktop and mobile with a collapsible sidebar                                               |
 
@@ -113,16 +114,23 @@ No npm install, no build step — just open and use! ✅
 
 ### Searching Transactions
 
-- Use the search box in the Transactions section to quickly find expenses by description or category
+- Use the search box above the transactions list to instantly filter expenses by description or category
+- Combine it with the category pills and the sort dropdown (Latest first / High to Low / Low to High) for more precise results
 
 ### Viewing a Different Month
 
-- Use the month picker in the top bar to switch the dashboard view to any month and review past spending
+- Use the month picker in the top bar to switch the dashboard view to any month
+- Metrics, charts, budget progress, and the transaction list all update to reflect the selected month
 
 ### Setting Income
 
 - Enter your monthly income in the **sidebar bottom field** and click **Set**
 - Your balance (income − spending) updates automatically
+
+### Switching Theme
+
+- Click the **Light Mode / Dark Mode** button at the bottom of the sidebar to toggle themes
+- Your preference is saved and remembered the next time you open the app
 
 ---
 
