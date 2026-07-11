@@ -113,6 +113,13 @@
         </svg>
         Recurring
       </button>
+      <button class="nav-item" data-tab="assistant">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        AI Assistant
+      </button>
+
     </nav>
     <div class="sidebar-income">
       <label>Monthly Income (₹)</label>
@@ -282,6 +289,29 @@
             No recurring expenses. Mark one when adding.
           </div>
         </div>
+      </div>
+    </section>
+    <!-- AI ASSISTANT TAB -->
+    <section class="tab-section" id="tab-assistant">
+      <div class="card assistant-card">
+        <div class="assistant-header">
+          <div class="assistant-avatar">✨</div>
+          <div>
+            <div class="assistant-name">FinanceAI Assistant</div>
+            <div class="assistant-status">● Online · Rule-based</div>
+          </div>
+          <button class="btn-secondary" id="clearChatBtn">Clear chat</button>
+        </div>
+
+        <div class="chat-window" id="chatWindow"></div>
+        
+        <div class="quick-cats" id="quickCats"></div>
+
+        <div class="chat-input-row">
+          <input type="text" id="chatInput" placeholder='Try "add 200 to food" or "summary"' />
+          <button class="btn-primary" id="chatSendBtn">Send</button>
+        </div>
+        <div class="assistant-disclaimer">Assistant may make mistakes. Review added expenses in Dashboard.</div>
       </div>
     </section>
   </main>

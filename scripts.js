@@ -16,6 +16,93 @@ const CATEGORIES = [
 
 const CAT_MAP = Object.fromEntries(CATEGORIES.map((c) => [c.name, c]));
 
+const CATEGORY_KEYWORDS = {
+  Food: [
+    "panipuri",
+    "pizza",
+    "burger",
+    "lunch",
+    "dinner",
+    "breakfast",
+    "chai",
+    "coffee",
+    "restaurant",
+    "snack",
+    "tea",
+    "juice",
+    "biryani",
+    "thali",
+    "food",
+    "samosa",
+    "momos",
+  ],
+  Transport: [
+    "uber",
+    "ola",
+    "bus",
+    "train",
+    "auto",
+    "petrol",
+    "fuel",
+    "cab",
+    "metro",
+    "rickshaw",
+    "rapido",
+  ],
+  Shopping: [
+    "shopping",
+    "amazon",
+    "flipkart",
+    "clothes",
+    "shoes",
+    "mall",
+    "myntra",
+  ],
+  Health: ["medicine", "doctor", "hospital", "pharmacy", "gym", "medical"],
+  Entertainment: [
+    "movie",
+    "netflix",
+    "spotify",
+    "game",
+    "concert",
+    "bookmyshow",
+  ],
+  Bills: ["bill", "electricity", "recharge", "wifi", "rent", "internet"],
+  Education: ["book", "course", "fee", "tuition", "stationery", "exam"],
+};
+
+function guessCategory(desc) {
+  const lower = desc.toLowerCase();
+
+  // First check if the category name itself is mentioned
+  for (const cat of CATEGORIES) {
+    if (lower.includes(cat.name.toLowerCase())) return cat.name;
+  }
+
+  // Then check keyword list
+  for (const [cat, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
+    if (keywords.some((k) => lower.includes(k))) return cat;
+  }
+
+  return "Other";
+}
+
+function parseQuickAdd(text) {
+  const amtMatch = text.match(/(\d+(\.\d+)?)/);
+  if (!amtMatch) return null;
+
+  const amt = parseFloat(amtMatch[1]);
+  let desc = text
+    .replace(amtMatch[1], "")
+    .replace(/\b(add|to|for|spent|spend|on)\b/gi, "")
+    .trim();
+  if (!desc) desc = "Expense";
+  desc = desc.charAt(0).toUpperCase() + desc.slice(1);
+
+  const cat = guessCategory(desc);
+  return { desc, amt, cat };
+}
+
 // ── State ──────────────────────────────────────────────────
 let expenses = JSON.parse(localStorage.getItem(STORAGE_EXPENSES) || "[]");
 let budgets = JSON.parse(localStorage.getItem(STORAGE_BUDGETS) || "{}");
@@ -69,6 +156,7 @@ const tabTitles = {
   add: "Add Expense",
   budgets: "Budgets",
   recurring: "Recurring",
+  assistant: "AI Assistant",
 };
 
 function switchTab(tab) {
@@ -523,6 +611,116 @@ document.getElementById("monthPicker").addEventListener("change", (e) => {
   selectedMonth = m - 1;
   renderAll();
 });
+// ── AI Assistant Chat ──────────────────────────────────────
+const chatWindow = document.getElementById("chatWindow");
+
+function addChatMsg(text, from) {
+  const time = new Date().toLocaleTimeString("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  const div = document.createElement("div");
+  div.className = "chat-msg " + from;
+  div.innerHTML = `${text}<div class="chat-msg-time">${time}</div>`;
+  chatWindow.appendChild(div);
+  chatWindow.scrollTop = chatWindow.scrollHeight;
+}
+
+function botWelcome() {
+  addChatMsg(
+    `Hey! 👋 I'm your <strong>FinanceAI</strong> assistant. I can help you:<br><br>
+    • <strong>Add expenses</strong> — "add 200 to food"<br>
+    • <strong>Track spending</strong> — "how much did I spend on travel?"<br>
+    • <strong>Summaries</strong> — "show summary"<br><br>
+    What would you like to do?`,
+    "bot",
+  );
+}
+
+function renderQuickCats() {
+  document.getElementById("quickCats").innerHTML = CATEGORIES.map(
+    (c) =>
+      `<button class="pill" onclick="quickCatFill('${c.name}')">${c.emoji} ${c.name}</button>`,
+  ).join("");
+}
+
+window.quickCatFill = function (cat) {
+  document.getElementById("chatInput").value = `50 ${cat.toLowerCase()} `;
+  document.getElementById("chatInput").focus();
+};
+
+function handleChatMessage(text) {
+  const lower = text.toLowerCase();
+
+  if (lower.includes("summary")) {
+    const me = getMonthExpenses();
+    const total = me.reduce((s, e) => s + e.amt, 0);
+    addChatMsg(
+      `This month: <strong>₹${total}</strong> spent across <strong>${me.length}</strong> transactions.`,
+      "bot",
+    );
+    return;
+  }
+
+  const catAsk = lower.match(/on (\w+)/);
+  if (lower.includes("how much") && catAsk) {
+    const guess = guessCategory(catAsk[1]);
+    const me = getMonthExpenses().filter((e) => e.cat === guess);
+    const total = me.reduce((s, e) => s + e.amt, 0);
+    addChatMsg(
+      `You've spent <strong>₹${total}</strong> on ${guess} this month.`,
+      "bot",
+    );
+    return;
+  }
+
+  const parsed = parseQuickAdd(text);
+  if (!parsed) {
+    addChatMsg(
+      `I couldn't find an amount in that. Try something like "panipuri 50" or "add 200 to food".`,
+      "bot",
+    );
+    return;
+  }
+
+  const date = new Date().toISOString().split("T")[0];
+  expenses.unshift({
+    id: Date.now(),
+    desc: parsed.desc,
+    amt: parsed.amt,
+    cat: parsed.cat,
+    date,
+    recur: false,
+  });
+  save();
+  renderAll();
+  addChatMsg(
+    `Added ₹${parsed.amt} for <strong>${parsed.desc}</strong> under ${parsed.cat} ✅`,
+    "bot",
+  );
+}
+
+document.getElementById("chatSendBtn").addEventListener("click", () => {
+  const input = document.getElementById("chatInput");
+  const text = input.value.trim();
+  if (!text) return;
+  addChatMsg(text, "user");
+  input.value = "";
+  setTimeout(() => handleChatMessage(text), 300);
+});
+
+document.getElementById("chatInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") document.getElementById("chatSendBtn").click();
+});
+
+document.getElementById("clearChatBtn").addEventListener("click", () => {
+  chatWindow.innerHTML = "";
+  botWelcome();
+});
+
+renderQuickCats();
+botWelcome();
+
 // ── Render All ─────────────────────────────────────────────
 function renderAll() {
   renderMetrics();
