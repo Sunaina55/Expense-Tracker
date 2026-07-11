@@ -71,23 +71,34 @@ const CATEGORY_KEYWORDS = {
   Education: ["book", "course", "fee", "tuition", "stationery", "exam"],
 };
 
-function guessCategory(desc) {
+async function guessCategory(desc) {
   const lower = desc.toLowerCase();
 
-  // First check if the category name itself is mentioned
   for (const cat of CATEGORIES) {
     if (lower.includes(cat.name.toLowerCase())) return cat.name;
   }
 
-  // Then check keyword list
   for (const [cat, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
     if (keywords.some((k) => lower.includes(k))) return cat;
+  }
+
+  try {
+    const res = await fetch("/.netlify/functions/categorize", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ description: desc }),
+    });
+    const data = await res.json();
+    const validCats = CATEGORIES.map((c) => c.name);
+    if (validCats.includes(data.category)) return data.category;
+  } catch (err) {
+    console.error("AI categorization failed:", err);
   }
 
   return "Other";
 }
 
-function parseQuickAdd(text) {
+async function parseQuickAdd(text) {
   const amtMatch = text.match(/(\d+(\.\d+)?)/);
   if (!amtMatch) return null;
 
@@ -99,7 +110,7 @@ function parseQuickAdd(text) {
   if (!desc) desc = "Expense";
   desc = desc.charAt(0).toUpperCase() + desc.slice(1);
 
-  const cat = guessCategory(desc);
+  const cat = await guessCategory(desc);
   return { desc, amt, cat };
 }
 
@@ -649,7 +660,7 @@ window.quickCatFill = function (cat) {
   document.getElementById("chatInput").focus();
 };
 
-function handleChatMessage(text) {
+async function handleChatMessage(text) {
   const lower = text.toLowerCase();
 
   if (lower.includes("summary")) {
@@ -674,7 +685,7 @@ function handleChatMessage(text) {
     return;
   }
 
-  const parsed = parseQuickAdd(text);
+  const parsed = await parseQuickAdd(text);
   if (!parsed) {
     addChatMsg(
       `I couldn't find an amount in that. Try something like "panipuri 50" or "add 200 to food".`,
