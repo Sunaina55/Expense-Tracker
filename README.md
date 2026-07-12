@@ -7,8 +7,6 @@ A clean, minimal personal finance tracker built with HTML, CSS, and JavaScript �
 ## 🖥️ Live Preview
 
 > [Click here to view the live demo](https://sunaina55.github.io/Expense-Tracker/)
-
-The demo is deployed on **Netlify**, which also hosts the serverless function powering the AI Assistant. 
 ---
 
 ## 📸 Preview
