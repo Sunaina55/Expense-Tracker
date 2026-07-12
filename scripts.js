@@ -203,7 +203,6 @@ function renderMetrics() {
 
   document.getElementById("m-count").textContent = me.length;
 
-  document.getElementById("m-count").textContent = me.length;
 
   document.getElementById("monthLabel").textContent = new Date(
     selectedYear,
@@ -675,7 +674,7 @@ async function handleChatMessage(text) {
 
   const catAsk = lower.match(/on (\w+)/);
   if (lower.includes("how much") && catAsk) {
-    const guess = guessCategory(catAsk[1]);
+    const guess = await guessCategory(catAsk[1]);
     const me = getMonthExpenses().filter((e) => e.cat === guess);
     const total = me.reduce((s, e) => s + e.amt, 0);
     addChatMsg(
