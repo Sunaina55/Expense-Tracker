@@ -11,14 +11,17 @@ A clean, minimal personal finance tracker built with HTML, CSS, and JavaScript �
 
 ## 📸 Preview
 
-### 🖥️ Desktop
+### 🖥️ Desktop — Light Mode
+![Dashboard Light](./Assets/dashboard-light.png)
 
-![Desktop Preview](./Assets/desktop-preview.png)
+### 🌙 Desktop — Dark Mode
+![Dashboard Dark](./Assets/dashboard-dark.png)
+
+### 🤖 AI Assistant
+![AI Assistant](./Assets/ai-assistant.png)
 
 ### 📱 Mobile
-
-<img src="./Assets/mobile-preview.png" width="300" />
-
+<img src="./Assets/mobile-dashboard.png" width="300" />
 ---
 
 ## ✨ Features
@@ -68,8 +71,10 @@ Expense-Tracker/
 │   └── functions/
 │       └── categorize.js             # Serverless function — calls Groq API for categorization
 ├── Assets/
-│   ├── desktop-preview.png           # Desktop screenshot
-│   └── mobile-preview.png            # Mobile screenshot
+│   ├── dashboard-light.png           # Dashboard screenshot (light mode)
+│   ├── dashboard-dark.png            # Dashboard screenshot (dark mode)
+│   ├── ai-assistant.png              # AI Assistant chat screenshot
+│   └── mobile-dashboard.png          # Mobile view screenshot
 └── README.md
 ```
 
